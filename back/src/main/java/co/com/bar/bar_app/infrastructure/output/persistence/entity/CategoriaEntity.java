@@ -1,0 +1,38 @@
+package co.com.bar.bar_app.infrastructure.output.persistence.entity;
+
+import co.com.bar.bar_app.infrastructure.output.persistence.converter.EstadoConverter;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Entity
+@Table(name = "categoria")
+@Getter
+@Setter
+@NoArgsConstructor
+public class CategoriaEntity {
+    @Id
+    private UUID id;
+
+    @Column(length = 100)
+    private String descripcion;
+
+    @Convert(converter = EstadoConverter.class)
+    private boolean estado;
+
+    @Column(name = "fecha_creacion")
+    private LocalDateTime fechaCreacion;
+
+    @Column(name = "fecha_actualizacion")
+    private LocalDateTime fechaActualizacion;
+
+    @Column(name = "usuario_crea", length = 30)
+    private String usuarioCrea;
+
+    @Column(name = "usuario_modifica", length = 30)
+    private String usuarioModifica;
+}

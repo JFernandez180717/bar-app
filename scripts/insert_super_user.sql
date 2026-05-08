@@ -1,0 +1,3 @@
+INSERT INTO public.usuario(username, email, pass, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, tipo_identificacion, identificacion, direccion, telefono, estado, fecha_creacion, fecha_actualizacion, usuario_crea, usuario_modifica)
+VALUES ('superuser', 'superuser@pruebas.com', '$2a$10$nU5c/zlxfqq6Y2pWSAUdDuYV.nPpoKpP7EhjNPxW1cUBCTwliS5gG', 'SUPER', NULL, 'USER', NULL, 'CC', '000000', 'N/A', 'N/A', 1, NOW(), NULL, NULL, NULL);
+commit;
