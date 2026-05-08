@@ -1,23 +1,23 @@
 ---
 name: springboot-4
 description: >
-  Description of the project architecture and rules.
-  Trigger: When creating a new java file or modifying any java file.
-license: 
+  Spring Boot 4 backend development guidelines for Bar App, including
+  hexagonal architecture, REST API conventions, validation, exception handling,
+  database access, and coding standards.
+  Trigger: When creating or modifying Java files.
 metadata:
   author: JFernandez180717
   version: "1.0"
 ---
 
-# 🧠 **Skill: Spring Boot 4 con Arquitectura Hexagonal (Estándar Empresarial)**
+# 🧠 Skill: Spring Boot 4 with Hexagonal Architecture (Enterprise Standard)
 
-Tu objetivo es ayudar a desarrollar aplicaciones **Spring Boot 4** siguiendo arquitectura hexagonal estricta, asegurando separación de responsabilidades, mantenibilidad y escalabilidad.
+This skill defines the architecture rules, development standards, and coding conventions for building Spring Boot 4 applications using strict hexagonal architecture.
+The objective is to ensure clean separation of concerns, maintainability, scalability, testability, and consistency across the project.
 
 ---
 
-# 🏗️ **Estructura del Proyecto (OBLIGATORIA)**
-
-Basado en la imagen:
+# 🏗️ **Project Structure (MANDATORY)**
 
 ```
 com.co.bar.bar_app
@@ -53,63 +53,61 @@ com.co.bar.bar_app
 
 ---
 
-# 🧩 **Reglas de Arquitectura Hexagonal**
+# 🧩 **Hexagonal Architecture Rules**
 
-## 🔹 Capas
+## 🔹 Layers
 
-### 1. **domain (núcleo)**
+### 1. **domain (core)**
 
-* Contiene:
-
-  * Modelos de dominio (`Usuario`, `Producto`, etc.)
-  * Excepciones
-* ❌ NO depende de ninguna otra capa
+* Contains:
+  * Domain models (`User`, `Product`, etc.)
+  * Exceptions
+* ❌ MUST NOT depend on any other layer
 
 ---
 
 ### 2. **application**
 
-* Contiene:
+* Contains:
 
-  * Casos de uso (`service`)
+  * Use cases (`service`)
   * DTOs (`record`)
   * Mappers (MapStruct)
-  * Puertos (interfaces)
+  * Ports (interfaces)
 
-#### 📌 Puertos
+#### 📌 Ports
 
-* Entrada:
+* Input:
 
   ```
   UsuarioInPort
   ```
-* Salida:
+* Output:
 
   ```
   UsuarioOutPort
   ```
 
-✔ Regla obligatoria:
+✔ Mandatory rule:
 
-> Nombre puertos = `ClaseDominio + InPort / OutPort`
-> Nombre mappers= `ClaseDominio + ApplicationMapper`
+> Port name = `DomainClass + InPort / OutPort`  
+> Mappers name = `DomainClass + ApplicationMapper`
 
 ---
 
 ### 3. **infrastructure**
 
-* Implementaciones concretas:
-
+* Concrete implementations:
   * Controllers (REST)
-  * Persistencia (JPA)
-  * Seguridad (Spring Security)
+  * Persistence (JPA)
+  * Security (Spring Security)
 
 ---
 
-# 📦 **Convenciones de Nombres (CRÍTICO)**
+# 📦 **Naming Conventions (CRITICAL)**
 
-| Tipo            | Ejemplo                     |
-| --------------- | --------------------------- |
+| Type            | Example                     |
+|-----------------|-----------------------------|
 | Dominio         | `Usuario`                   |
 | Entity          | `UsuarioEntity`             |
 | Adapter         | `UsuarioPersistenceAdapter` |
@@ -120,11 +118,11 @@ com.co.bar.bar_app
 
 ---
 
-# 🧾 **DTOs (OBLIGATORIO)**
+# 🧾 **DTOs (Mandatory)**
 
-✔ Usar `record`
+✔ Use `record`
 
-```java
+```Java
 public record UsuarioDto(
     Long id,
     String nombre,
@@ -132,27 +130,27 @@ public record UsuarioDto(
 ) {}
 ```
 
-✔ Comunicación:
+✔ Communication:
 
 * `controller → application`: DTO
-* `application → infrastructure`: DTO o primitivos
-* ❌ Nunca exponer Entities
-* ❌ Nunca exponer Clases de dominio
+* `application → infrastructure`: DTO or primitives
+* ❌ Never expose Entities
+* ❌ Never expose Domain Classes
 
 ---
 
-# 🔄 **MapStruct (OBLIGATORIO)**
+# 🔄 **MapStruct (Mandatory)**
 
-Ubicación:
+Location:
 
 ```
 application.mapper
 infrastructure.mapper
 ```
 
-Ejemplo:
+Example:
 
-```java
+```Java
 @Mapper(componentModel = "spring")
 public interface UsuarioMapper {
 
@@ -164,9 +162,9 @@ public interface UsuarioMapper {
 
 ---
 
-# 🔌 **Puertos**
+# 🔌 **Ports**
 
-## InPort (caso de uso)
+## InPort (use case)
 
 ```java
 public interface UsuarioInPort {
@@ -176,7 +174,7 @@ public interface UsuarioInPort {
 
 ---
 
-## OutPort (persistencia)
+## OutPort (persistence)
 
 ```java
 public interface UsuarioOutPort {
@@ -208,15 +206,15 @@ public class UsuarioService implements UsuarioInPort {
 }
 ```
 
-✔ Reglas:
+✔ Rules:
 
 * Stateless
-* Usa puertos
-* Maneja transacciones
+* Use ports
+* Handles transactions
 
 ---
 
-# 🗄️ **Persistencia (Infrastructure)**
+# 🗄️ **Persistence (Infrastructure)**
 
 ## Entity
 
@@ -248,8 +246,8 @@ public class UsuarioEntity {
 }
 ```
 
-✔ REGLAS:
-* ✔ Mantener las propiedades de auditoria a menos que se te pida que una clase especifica no los necesita
+✔ RULES:
+* ✔ Keep audit properties unless explicitly instructed that a specific class does not require them.
 
 ---
 
@@ -262,7 +260,7 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
 
 ---
 
-## Adapter (IMPLEMENTA OutPort)
+## Adapter (implements OutPort)
 
 ```java
 @Component
@@ -281,17 +279,17 @@ public class UsuarioPersistenceAdapter implements UsuarioOutPort {
 }
 ```
 
-✔ REGLAS:
+✔ RULES:
 
-* ❌ NO retorna Entities
-* ✔ retorna dominio
-* ✔ recibe dominio o primitivos
+* ❌ MUST NOT return Entities
+* ✔ Returns domain models
+* ✔ Accepts domain models or primitives
 
 ---
 
 # 🌐 **Controllers (REST)**
 
-Ubicación:
+Location:
 
 ```
 infrastructure.input.rest
@@ -314,7 +312,7 @@ public class UsuarioController {
 
 ---
 
-# 📦 **ApiResponse (OBLIGATORIO)**
+# 📦 **ApiResponse (mandatory)**
 
 ```java
 @Data
@@ -329,15 +327,15 @@ public class ApiResponse<T> {
 }
 ```
 
-✔ Todas las respuestas deben ir encapsuladas, esto ya lo hace la clase GlobalControllerAdvice que es un @RestControllerAdvice
+✔ All responses must be wrapped consistently. This is already handled by the `GlobalControllerAdvice` class, which is implemented using `@RestControllerAdvice`.
 
 ---
 
-# 🔐 **Seguridad (Spring Security)**
+# 🔐 **Security (Spring Security)**
 
-* Usar `BCryptPasswordEncoder`
-* Implementar `UserDetails`, ya existe una clase que implementa el UserDetailService es la clase UsuarioService
-* Clase típica:
+* Use `BCryptPasswordEncoder`
+* Implement `UserDetails`. A class that implements `UserDetailsService` already exists: `UsuarioService`
+* Typical class:
 
 ```java
 @Service
@@ -345,13 +343,13 @@ public class UsuarioService implements UserDetailsService, IUserInPort {
 }
 ```
 
-✔ Nunca guardar contraseñas en texto plano
+✔ Never store passwords in plain text.
 
 ---
 
-# ⚙️ **Configuración**
+# ⚙️ **Configuration**
 
-* Usar:
+* Use:
 
   ```
   application.properties
@@ -359,7 +357,7 @@ public class UsuarioService implements UserDetailsService, IUserInPort {
   application-prod.properties
   ```
 
-✔ Activar profile:
+✔ Activate profile:
 
 ```
 spring.profiles.active=dev
@@ -369,40 +367,35 @@ spring.profiles.active=dev
 
 # 🧪 **Testing**
 
-* Unitarios: Mockito + JUnit 5
-* Integración: `@SpringBootTest`
-* Repositorios: `@DataJpaTest`
+* Unit tests: Mockito + JUnit 5
+* Integration tests: `@SpringBootTest`
+* Repository tests: `@DataJpaTest`
 
 ---
 
 # 🪵 **Logging**
 
+✔ Use parameterized logs:
+
 ```java
 private static final Logger log = LoggerFactory.getLogger(UsuarioService.class);
-```
-
-✔ Usar logs parametrizados:
-
-```java
 log.info("Usuario creado con id {}", id);
 ```
 
----
+# 🚫 Forbidden Rules
 
-# 🚫 **Reglas PROHIBIDAS**
-
-❌ No Usar Entities fuera de infraestructura
-❌ No Saltarse puertos
-❌ No Lógica en controllers
-❌ No Retornar Entities en API
-❌ No Acoplar capas
-❌ No Retornar Clases de dominio en API
-❌ No Retornar Clases de dominio desde appication a rest
-❌ Nombres de metodos, DTOs, variables (excepto las que identifiquen una clase de dominio o entity) siempre en ingles
+❌ Do not use Entities outside the infrastructure layer  
+❌ Do not bypass ports  
+❌ Do not place business logic in controllers  
+❌ Do not return Entities in the API  
+❌ Do not couple layers  
+❌ Do not return Domain Classes in the API  
+❌ Do not return Domain Classes from the application layer to infrastructure layer  
+❌ Method names, DTOs, variables, and other identifiers must always be in English (except for names that represent existing domain classes or entities)
 
 ---
 
-# ✅ **Flujo Correcto**
+# ✅ **Correct Flow**
 
 ```
 Controller → InPort → Service → OutPort → Adapter → Repository → DB
@@ -410,13 +403,13 @@ Controller → InPort → Service → OutPort → Adapter → Repository → DB
 
 ---
 
-# 🚀 **Resumen Clave**
+# 🚀 Key Summary
 
-* Arquitectura hexagonal estricta
-* DTOs como `record`ss
-* MapStruct obligatorio
-* Puertos bien nombrados
-* Adapter retorna dominio (nunca entity)
-* API siempre usa `ApiResponse`
+* Strict hexagonal architecture
+* DTOs must be implemented as `record`
+* MapStruct is mandatory
+* Ports must use clear and consistent naming
+* Adapters must return domain models (never Entities)
+* The API must always use `ApiResponse`
 
 ---

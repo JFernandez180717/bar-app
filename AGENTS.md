@@ -1,16 +1,21 @@
-# Sistema Bar — Agent Skills Index
+## Project Overview
+
+Bar App is a digital platform for bar management and operations. It centralizes sales, inventory, table service, and business analytics into a single system. The platform is designed to streamline daily operations, improve staff efficiency, and enhance the customer experience.
+
+## Agent Skills Index
 
 When working on this project, load the relevant skill(s) BEFORE writing any code.
 
 ## How to Use
 
-1. Check the trigger column to find skills that match your current task
-2. Load the skill by reading the SKILL.md file at the listed path
-3. Follow ALL patterns and rules from the loaded skill
-4. Multiple skills can apply simultaneously
+1. Identify the task you are working on
+2. Check the trigger column for matching skills
+3. Load the skill by reading the corresponding `SKILL.md` file
+4. Follow ALL rules, patterns, and conventions defined in the loaded skill
+5. Multiple skills may apply simultaneously
 
 ## Skills
 
 | Skill | Trigger | Path |
 |-------|---------|------|
-| `springboot-4` | When creating a new java file or modifying any java file. | [`skills/java-springboot/SKILL.md`](skills/java-springboot/SKILL.md) |
+| `springboot-4` | When creating or modifying Java files. | `skills/java-springboot/SKILL.md` |
