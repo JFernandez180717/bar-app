@@ -1,10 +1,7 @@
 ---
 name: springboot-4
-description: >
-  Spring Boot 4 backend development guidelines for Bar App, including
-  hexagonal architecture, REST API conventions, validation, exception handling,
-  database access, and coding standards.
-  Trigger: When creating or modifying Java files.
+description: Spring Boot 4 backend development guidelines for Bar App, including hexagonal architecture, REST API conventions, validation, exception handling, database access, and coding standards. Trigger, When creating or modifying Java files.
+license: MIT
 metadata:
   author: JFernandez180717
   version: "1.0"

@@ -16,6 +16,6 @@ When working on this project, load the relevant skill(s) BEFORE writing any code
 
 ## Skills
 
-| Skill | Trigger | Path |
-|-------|---------|------|
-| `springboot-4` | When creating or modifying Java files. | `skills/java-springboot/SKILL.md` |
+| Skill | Trigger | Path                                      |
+|-------|---------|-------------------------------------------|
+| `springboot-4` | When creating or modifying Java files. | `.agents/skills/java-springboot/SKILL.md` |
