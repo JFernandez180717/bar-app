@@ -1,6 +1,7 @@
 package co.com.bar.bar_app.infrastructure.output.persistence.entity;
 
 import co.com.bar.bar_app.infrastructure.output.persistence.converter.EstadoConverter;
+import co.com.bar.bar_app.domain.model.Marca;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,4 +36,8 @@ public class MarcaEntity {
 
     @Column(name = "usuario_modifica", length = 30)
     private String usuarioModifica;
+
+public Marca toDomain() {
+        return new Marca(id, descripcion, estado);
+    }
 }

@@ -14,6 +14,9 @@ public interface ProductoRepository extends JpaRepository<ProductoEntity, UUID> 
     List<ProductoEntity> findByDestacadoTrueAndEstadoTrue();
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("SELECT p FROM ProductoEntity p WHERE p.id = :id")
+    @Query("SELECT p FROM ProductoEntity p WHERE p.id = id")
     ProductoEntity findByIdWithLock(@Param("id") UUID id);
+
+    @Query("UPDATE ProductoEntity p SET p.stock = :stock WHERE p.id = :id")
+    void actualizarStock(@Param("id") UUID id, @Param("stock") int stock);
 }

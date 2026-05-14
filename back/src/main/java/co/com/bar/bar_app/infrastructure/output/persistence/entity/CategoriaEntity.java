@@ -2,6 +2,7 @@ package co.com.bar.bar_app.infrastructure.output.persistence.entity;
 
 import co.com.bar.bar_app.infrastructure.output.persistence.converter.EstadoConverter;
 import jakarta.persistence.*;
+import co.com.bar.bar_app.domain.model.Categoria;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,4 +36,8 @@ public class CategoriaEntity {
 
     @Column(name = "usuario_modifica", length = 30)
     private String usuarioModifica;
+
+    public Categoria toDomain() {
+        return new Categoria(id, descripcion, estado);
+    }
 }
